@@ -15,14 +15,9 @@ def send_to_serial(msg):
 def get_input():
 	userIn = input("Enter Angle (0-180): ")
 	while userIn != "q":
-		if int(userIn) < 180 and int(userIn) >= 0:
-			send_to_serial(userIn)
-		else:
-			print("Not valid.")
-
-		userIn = input("Enter Angle (0-180): ")
+		send_to_serial(userIn)
+		userIn = input("Enter Command: ")
 
 
 get_input()
-
 
