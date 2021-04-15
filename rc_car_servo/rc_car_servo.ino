@@ -10,12 +10,13 @@ void setup() {
 
   // Start Serial at baud rate 9600.
   Serial.begin(9600);
-
+  Serial.setTimeout(10);
+  
   // Attach Servo to pin 10;
   ser.attach(10);
 
   // Set the servo to center.
-  ser.write(90);
+  ser.write(0);
   
 } // end setup.
 
@@ -38,6 +39,8 @@ void serialEvent() {
 // Returns int value of String.
 //************************************
 int parseInput(String in) {
+  in.remove(serialInput.indexOf('\n'));
+  
   return in.toInt();
   
 } // end parseInput.
