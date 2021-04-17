@@ -78,8 +78,12 @@ void loop() {
       case 0xB946FF00:
         Serial.println("Forward ->>");
         // Change motor direction to forward.
-        motor_speed += 30;
-        analogWrite(MOTOR_ENABLE_PIN, motor_speed);
+        analogWrite(MOTOR_ENABLE_PIN, 255);
+        setMotorDirection("F");
+
+        delay(2000);
+        analogWrite(MOTOR_ENABLE_PIN, 0);
+        Serial.println("Exit");
         break;
       case 0xBB44FF00:
         Serial.println("Left <-");
@@ -104,7 +108,7 @@ void loop() {
           digitalWrite(MOTOR_DIR_TWO_PIN, LOW);
           motor_stopped = true;
         } else {
-          analogWrite(MOTOR_ENABLE_PIN, motor_speed);
+          analogWrite(MOTOR_ENABLE_PIN, 255);
           setMotorDirection("F");
           motor_stopped = false;
         }
@@ -126,12 +130,17 @@ void loop() {
       case 0xEA15FF00:
         Serial.println("Reverse <<-");
         // Change motor direction to reverse.
-        
+        setMotorDirection("R");
+        analogWrite(MOTOR_ENABLE_PIN, 255);
+        delay(2000);
+        analogWrite(MOTOR_ENABLE_PIN, 0);
+        Serial.println("Exit");
         break;
     }
     key_value = results.value; // store the value as key_value
     receiver.resume(); // reset the receiver for the next code
-  } }
+   } 
+ }
 
 //****************************************************************
 // Triggered at the end of loop() if there is a serialEvent.
@@ -201,8 +210,8 @@ void setMotorDirection(String dir) {
     digitalWrite(MOTOR_DIR_ONE_PIN, HIGH);
     digitalWrite(MOTOR_DIR_TWO_PIN, LOW);
   } else {
-    digitalWrite(MOTOR_DIR_ONE_PIN, HIGH);
-    digitalWrite(MOTOR_DIR_TWO_PIN, LOW);
+    digitalWrite(MOTOR_DIR_ONE_PIN, LOW);
+    digitalWrite(MOTOR_DIR_TWO_PIN, HIGH);
   }
   
 } // end parseInput.
